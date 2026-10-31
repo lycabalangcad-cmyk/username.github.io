@@ -18,7 +18,7 @@
      hide that form (the helpful/not-helpful buttons still work).
    ========================================================== */
 window.SITE_CONFIG = {
-  GA_MEASUREMENT_ID: "",
+  GA_MEASUREMENT_ID: "G-RZRNMMNN1Z",
   CONSENT_MODE: "opt-in",
   CONTACT_EMAIL: ""
 };
