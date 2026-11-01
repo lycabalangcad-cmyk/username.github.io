@@ -26,15 +26,18 @@
     try { window.localStorage.setItem(KEY, value); } catch (e) { /* ignore */ }
   }
 
-  function loadGA() {
-    if (loaded || !idIsValid) { return; }
-    loaded = true;
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
-    document.head.appendChild(s);
-    window.gtag('js', new Date());
-    window.gtag('config', id); // sends the automatic page_view
+function loadGA() {
+  if (loaded || !idIsValid) { return; }
+  loaded = true;
+
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+
+  document.head.appendChild(s);
+
+  window.gtag('js', new Date());
+  window.gtag('config', id); // sends the automatic page_view
   }
 
   function removeBanner() {
