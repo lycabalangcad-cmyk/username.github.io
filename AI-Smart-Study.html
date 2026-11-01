@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-Smart Study | Responsible generative-AI guide for university students</title>
+<meta name="description" content="A free guide, prompt builder, quiz and checklist to help university students use generative AI responsibly.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%231d4ed8'/%3E%3Cpath d='M10 14h12c2 0 2 1 2 2v18c0-1-1-2-3-2H10z' fill='%23fff'/%3E%3Cpath d='M38 14H26c-2 0-2 1-2 2v18c0-1 1-2 3-2h11z' fill='%23bcd0ff'/%3E%3C/svg%3E">
+<style>
+/* ==========================================================
+   AI-Smart Study - main stylesheet
+   Mobile-first, system fonts (no external font requests),
+   high-contrast colours, visible focus states.
+   ========================================================== */
+
+:root {
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --text: #1b2433;
+  --muted: #4a5568;
+  --primary: #1d4ed8;
+  --primary-dark: #1e3a8a;
+  --accent: #0f766e;
+  --border: #d5dbe5;
+  --soft-blue: #eaf0ff;
+  --soft-green: #e6f6f3;
+  --warn-bg: #fff7e6;
+  --warn-border: #e8b04a;
+  --ok: #166534;
+  --ok-bg: #e8f7ee;
+  --bad: #b91c1c;
+  --bad-bg: #fdecec;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(20, 30, 50, 0.08), 0 4px 14px rgba(20, 30, 50, 0.06);
+  --font: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+}
+
+img, svg { max-width: 100%; height: auto; }
+
+a { color: var(--primary); text-underline-offset: 3px; }
+a:hover { color: var(--primary-dark); }
+
+:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 8px;
+  background: var(--primary-dark);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  z-index: 1000;
+}
+.skip-link:focus { left: 8px; color: #fff; }
+
+.container { width: min(1080px, 100% - 2rem); margin-inline: auto; }
+
+/* ---------- Header / navigation ---------- */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+.brand svg { width: 36px; height: 36px; flex: none; }
+
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.site-nav { display: none; width: 100%; }
+.site-nav.open { display: block; }
+.site-nav ul { list-style: none; margin: 0; padding: 0.4rem 0 0.8rem; }
+.site-nav a {
+  display: block;
+  padding: 0.65rem 0.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+}
+.site-nav a:hover { background: var(--soft-blue); }
+.site-nav a[aria-current="page"] { background: var(--primary); color: #fff; }
+
+.header-inner { flex-wrap: wrap; }
+
+@media (min-width: 900px) {
+  .nav-toggle { display: none; }
+  .site-nav { display: block; width: auto; }
+  .site-nav ul { display: flex; gap: 0.15rem; padding: 0; }
+  .site-nav a { padding: 0.5rem 0.75rem; font-size: 0.97rem; }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 55%, #0f766e 120%);
+  color: #fff;
+  padding: 3.2rem 0 3.4rem;
+}
+.hero h1 { font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.15; margin: 0 0 1rem; }
+.hero p { font-size: 1.2rem; max-width: 46rem; margin: 0 0 1.6rem; }
+.hero .btn-row { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+.page-title {
+  background: var(--soft-blue);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 0 1.6rem;
+}
+.page-title h1 { margin: 0 0 0.4rem; font-size: clamp(1.7rem, 4vw, 2.3rem); color: var(--primary-dark); }
+.page-title p { margin: 0; color: var(--muted); max-width: 46rem; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.3rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-dark); color: #fff; }
+.btn-light { background: #fff; color: var(--primary-dark); }
+.btn-light:hover { background: var(--soft-blue); color: var(--primary-dark); }
+.btn-outline { background: transparent; border-color: var(--primary); color: var(--primary); }
+.btn-outline:hover { background: var(--soft-blue); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+
+/* ---------- Layout blocks ---------- */
+main { display: block; }
+.section { padding: 2.4rem 0; }
+.section h2 { font-size: 1.6rem; margin: 0 0 0.8rem; color: var(--primary-dark); }
+.section h3 { font-size: 1.2rem; margin: 1.4rem 0 0.4rem; }
+
+.grid { display: grid; gap: 1.2rem; }
+@media (min-width: 700px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } .grid-2 { grid-template-columns: repeat(2, 1fr); } }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem;
+  box-shadow: var(--shadow);
+}
+.card h3 { margin-top: 0; }
+.card .icon { width: 44px; height: 44px; margin-bottom: 0.6rem; }
+.card p:last-child { margin-bottom: 0; }
+
+.notice {
+  background: var(--warn-bg);
+  border-left: 5px solid var(--warn-border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+}
+.note-blue {
+  background: var(--soft-blue);
+  border-left: 5px solid var(--primary);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin: 1.2rem 0;
+}
+
+.toc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.3rem; }
+.toc ol { margin: 0.4rem 0 0; padding-left: 1.3rem; }
+
+.table-wrap { overflow-x: auto; }
+table.data { width: 100%; border-collapse: collapse; background: var(--surface); }
+table.data th, table.data td { border: 1px solid var(--border); padding: 0.7rem 0.8rem; text-align: left; vertical-align: top; }
+table.data th { background: var(--soft-blue); }
+
+.tag {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.15rem 0.6rem;
+  border-radius: 99px;
+}
+.tag-ok { background: var(--ok-bg); color: var(--ok); }
+.tag-mid { background: var(--warn-bg); color: #8a5a00; border: 1px solid var(--warn-border); }
+.tag-no { background: var(--bad-bg); color: var(--bad); }
+
+blockquote.template {
+  margin: 0.8rem 0;
+  padding: 0.9rem 1.1rem;
+  background: var(--soft-green);
+  border-left: 5px solid var(--accent);
+  border-radius: 8px;
+  font-style: italic;
+}
+
+/* ---------- Forms ---------- */
+.form-grid { display: grid; gap: 1rem; }
+@media (min-width: 700px) { .form-grid.two { grid-template-columns: 1fr 1fr; } }
+label { display: block; font-weight: 700; margin-bottom: 0.25rem; }
+.hint { font-weight: 400; color: var(--muted); font-size: 0.93rem; }
+input[type="text"], select, textarea {
+  width: 100%;
+  font: inherit;
+  padding: 0.65rem 0.75rem;
+  border: 1.5px solid #8a94a6;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+textarea { min-height: 6rem; resize: vertical; }
+textarea.output { min-height: 15rem; background: #f3f6fb; font-family: Consolas, "Courier New", monospace; font-size: 0.97rem; }
+
+.status { min-height: 1.5rem; font-weight: 600; color: var(--ok); margin: 0.5rem 0 0; }
+
+/* ---------- Quiz ---------- */
+.quiz-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.4rem; box-shadow: var(--shadow); }
+.quiz-progress { font-weight: 700; color: var(--muted); margin: 0 0 0.6rem; }
+.progress-bar { height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin-bottom: 1.1rem; }
+.progress-bar span { display: block; height: 100%; background: var(--accent); width: 0; transition: width 0.25s; }
+fieldset { border: 0; margin: 0; padding: 0; }
+legend { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.8rem; padding: 0; }
+.choice {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  background: #fff;
+}
+.choice:hover { border-color: var(--primary); }
+.choice input { margin-top: 0.3rem; width: 1.1rem; height: 1.1rem; flex: none; }
+.choice.correct { border-color: var(--ok); background: var(--ok-bg); }
+.choice.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.feedback { margin: 1rem 0; padding: 0.9rem 1rem; border-radius: 8px; }
+.feedback.good { background: var(--ok-bg); border-left: 5px solid var(--ok); }
+.feedback.bad { background: var(--bad-bg); border-left: 5px solid var(--bad); }
+.quiz-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.8rem; }
+.score { font-size: 2.4rem; font-weight: 800; color: var(--primary-dark); margin: 0; }
+
+/* ---------- Checklist ---------- */
+.check-list { list-style: none; margin: 0; padding: 0; }
+.check-list li { margin-bottom: 0.6rem; }
+.check-list label {
+  display: flex; gap: 0.7rem; align-items: flex-start;
+  font-weight: 500;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  cursor: pointer;
+}
+.check-list input { margin-top: 0.3rem; width: 1.15rem; height: 1.15rem; flex: none; }
+
+/* ---------- Tools directory ---------- */
+.tool-card h3 { margin-bottom: 0.2rem; }
+.tool-meta { color: var(--muted); font-size: 0.95rem; margin: 0 0 0.6rem; }
+
+/* ---------- Feedback ---------- */
+.rating-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+
+/* ---------- Footer ---------- */
+.site-footer { background: #101a33; color: #dbe3f5; margin-top: 2rem; padding: 2rem 0; font-size: 0.97rem; }
+.site-footer a { color: #bcd0ff; }
+.site-footer .footer-grid { display: grid; gap: 1.2rem; }
+@media (min-width: 700px) { .site-footer .footer-grid { grid-template-columns: 2fr 1fr; } }
+.linklike { background: none; border: 0; padding: 0; font: inherit; color: #bcd0ff; text-decoration: underline; cursor: pointer; }
+
+/* ---------- Consent banner ---------- */
+.consent-banner {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: #fff;
+  border-top: 3px solid var(--primary);
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  z-index: 200;
+}
+.consent-banner .inner { width: min(1080px, 100%); margin-inline: auto; display: flex; flex-wrap: wrap; gap: 0.8rem 1.2rem; align-items: center; justify-content: space-between; }
+.consent-banner p { margin: 0; flex: 1 1 380px; font-size: 0.97rem; }
+.consent-banner .btns { display: flex; gap: 0.6rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .progress-bar span { transition: none; }
+}
+
+@media print {
+  .site-header, .site-footer, .consent-banner, .btn { display: none !important; }
+  body { background: #fff; }
+}
+
+/* ---- single-page additions ---- */
+div[id], section[id] { scroll-margin-top: 90px; }
+.page-title h2 { margin: 0 0 0.4rem; font-size: clamp(1.7rem, 4vw, 2.3rem); color: var(--primary-dark); }
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#home" aria-label="AI-Smart Study home"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><rect width="48" height="48" rx="11" fill="#1d4ed8"/><path d="M10 14h12c2 0 2 1 2 2v18c0-1-1-2-3-2H10z" fill="#fff"/><path d="M38 14H26c-2 0-2 1-2 2v18c0-1 1-2 3-2h11z" fill="#bcd0ff"/><path d="M34 5l1.6 3.6L39 10l-3.4 1.4L34 15l-1.6-3.6L29 10l3.4-1.4z" fill="#fbbf24"/></svg><span>AI-Smart Study</span></a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">&#9776; Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation"><ul><li><a href="#home" aria-current="page">Home</a></li><li><a href="#guide">Guide</a></li><li><a href="#prompt-builder">Prompt Builder</a></li><li><a href="#quiz">Quiz</a></li><li><a href="#tools">Tools</a></li><li><a href="#checklist">Checklist</a></li><li><a href="#about">About &amp; Feedback</a></li></ul></nav>
+  </div>
+</header>
+<main id="main">
+<div id="home">
+<section class="hero"><div class="container">
+<h1>Use AI to learn better, honestly and safely.</h1>
+<p>A free, no-sign-up guide for university students: learn what is acceptable, build clearer prompts, test your judgement and keep a checklist before you submit.</p>
+<div class="btn-row"><a class="btn btn-light" href="#prompt-builder">Try the Prompt Builder</a><a class="btn btn-outline" style="color:#fff;border-color:#fff" href="#quiz">Take the quiz</a></div>
+</div></section><section class="section"><div class="container">
+<h2>Start here</h2>
+<div class="grid grid-3">
+<article class="card"><svg class="icon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#eaf0ff"/><path d="M11 13h9c2 0 2 1 2 2v16c0-1-1-2-3-2h-8z" fill="#1d4ed8"/><path d="M33 13h-9c-2 0-2 1-2 2v16c0-1 1-2 3-2h8z" fill="#60a5fa"/></svg><h3>Responsible-Use Guide</h3><p>Five simple principles, a clear "fine / check first / not okay" table and a disclosure template you can adapt.</p><a href="#guide">Read the guide</a></article>
+<article class="card"><svg class="icon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#e6f6f3"/><rect x="10" y="12" width="24" height="16" rx="4" fill="#0f766e"/><path d="M16 28l-2 6 8-6z" fill="#0f766e"/><rect x="14" y="17" width="16" height="2.5" rx="1.2" fill="#fff"/><rect x="14" y="22" width="10" height="2.5" rx="1.2" fill="#fff"/></svg><h3>Prompt Builder</h3><p>Fill in a few boxes and get a well-structured prompt that asks the AI to support your learning, not replace it.</p><a href="#prompt-builder">Build a prompt</a></article>
+<article class="card"><svg class="icon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#fff7e6"/><circle cx="22" cy="22" r="11" fill="#f59e0b"/><path d="M17.5 22.5l3.2 3.2 6.2-6.6" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><h3>"Is this acceptable?" Quiz</h3><p>Ten everyday study scenarios. Pick an answer, then see why. It takes about five minutes.</p><a href="#quiz">Test yourself</a></article>
+</div>
+</div></section>
+
+<section class="section"><div class="container">
+<h2>More to help you</h2>
+<div class="grid grid-3">
+<article class="card"><svg class="icon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#eaf0ff"/><rect x="11" y="11" width="9" height="9" rx="2" fill="#1d4ed8"/><rect x="24" y="11" width="9" height="9" rx="2" fill="#60a5fa"/><rect x="11" y="24" width="9" height="9" rx="2" fill="#60a5fa"/><rect x="24" y="24" width="9" height="9" rx="2" fill="#1d4ed8"/></svg><h3>Tools Directory</h3><p>A short, neutral list of popular AI tools with a note on what each is commonly used for.</p><a href="#tools">See the tools</a></article>
+<article class="card"><svg class="icon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#e8f7ee"/><rect x="12" y="10" width="20" height="24" rx="3" fill="#166534"/><path d="M16 17l2 2 4-4M16 25l2 2 4-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="24" y="17" width="5" height="2" fill="#fff"/><rect x="24" y="25" width="5" height="2" fill="#fff"/></svg><h3>Pre-submission Checklist</h3><p>Ten quick checks to run before you hand in work. Tick it online or download a printable copy.</p><a href="#checklist">Open the checklist</a></article>
+<article class="card"><svg class="icon" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#fdecec"/><path d="M22 9l11 4v8c0 7-4.5 11-11 14-6.5-3-11-7-11-14v-8z" fill="#b91c1c"/><path d="M17 22l4 4 7-8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><h3>Honest limits</h3><p>Rules differ between courses and universities. This site helps you ask the right questions; it cannot replace your instructor's rules.</p><a href="#about">About this site</a></article>
+</div>
+<div class="notice"><strong>Who is this for?</strong> Undergraduate and master's students who already use, or are thinking about using, generative AI tools for study and want to do it responsibly.</div>
+</div></section>
+</div>
+<div id="guide">
+<section class="page-title"><div class="container"><h2>Responsible-Use Guide</h2><p>General principles for using AI tools in your studies. Your course rules always come first.</p></div></section>
+<div class="section"><div class="container">
+<nav class="toc" aria-label="On this page"><strong>On this page</strong>
+<ol><li><a href="#why">Why this guide exists</a></li><li><a href="#principles">Five principles</a></li><li><a href="#spectrum">Fine, check first, or not okay?</a></li><li><a href="#disclose">How to disclose AI use</a></li><li><a href="#mistakes">Common mistakes</a></li><li><a href="#next">Next steps</a></li></ol></nav>
+
+<section id="why" class="section"><h2>Why this guide exists</h2>
+<p>Generative AI tools can explain ideas, give feedback and help you plan. They can also invent facts, hide weak understanding and, if used against the rules, put your grades at risk. Many students are simply unsure where the line is, because rules differ between courses and institutions.</p>
+<p>This guide gives you a practical way to think about it. It is general advice, not official policy.</p></section>
+
+<section id="principles" class="section"><h2>Five principles</h2>
+<div class="grid grid-2">
+<article class="card"><h3>1. Know the rules</h3><p>Read your course outline and your university's AI guidance. If it is unclear or silent, ask your instructor before you rely on AI.</p></article>
+<article class="card"><h3>2. Learn, don't outsource</h3><p>Use AI to understand, practise and get feedback. Be careful about letting it do the thinking you are being assessed on.</p></article>
+<article class="card"><h3>3. Verify everything</h3><p>AI can sound confident and still be wrong. Check facts, numbers, quotations and references against reliable sources.</p></article>
+<article class="card"><h3>4. Protect data</h3><p>Do not enter personal details, other people's information or confidential research into public tools.</p></article>
+<article class="card"><h3>5. Be transparent</h3><p>Disclose AI use whenever it is required, and keep a record of how you used it in case you are asked.</p></article>
+</div></section>
+
+<section id="spectrum" class="section"><h2>Fine, check first, or not okay?</h2>
+<p>These examples are typical, not universal. A course can allow or forbid more than shown here.</p>
+<div class="table-wrap"><table class="data">
+<caption class="hint" style="text-align:left;padding-bottom:0.4rem">Table 1. A rough guide to common uses of AI in study</caption>
+<thead><tr><th scope="col">Level</th><th scope="col">Examples</th></tr></thead><tbody>
+<tr><th scope="row"><span class="tag tag-ok">Usually fine</span></th><td>Explaining a concept in simpler words; making practice questions; brainstorming topics you then develop yourself; summarising a paper that you also read.</td></tr>
+<tr><th scope="row"><span class="tag tag-mid">Check first</span></th><td>Grammar or style help on your own draft; asking for an outline; using AI where the course has no written policy; any use in graded work where disclosure may be required.</td></tr>
+<tr><th scope="row"><span class="tag tag-no">Usually not okay</span></th><td>Submitting AI-written work as your own; using AI where the assignment forbids it; copying unchecked references; entering private or confidential data; hiding AI use when disclosure is required.</td></tr>
+</tbody></table></div></section>
+
+<section id="disclose" class="section"><h2>How to disclose AI use</h2>
+<p>Where your course asks for it, a short, honest statement is usually enough. You can adapt this template:</p>
+<blockquote class="template">I used [tool name and version, if known] on [date] to [purpose, e.g. brainstorm topic ideas / check grammar in my own draft]. I reviewed and edited all output, and the final work is my own.</blockquote>
+<p>Some citation styles, such as APA and MLA, have published guidance on citing generative AI. Check the latest edition of the style your course uses, and follow your instructor's instructions if they differ.</p></section>
+
+<section id="mistakes" class="section"><h2>Common mistakes</h2>
+<ul>
+<li><strong>Trusting references.</strong> AI tools can produce sources that look real but do not exist.</li>
+<li><strong>Trusting numbers.</strong> Statistics and dates must be checked at the original source.</li>
+<li><strong>Copy and paste.</strong> Submitting output you cannot explain is risky, even if rules allow AI.</li>
+<li><strong>Sharing too much.</strong> Pasting personal or confidential material into a public tool.</li>
+<li><strong>Assuming rules are the same everywhere.</strong> What one course allows, another may forbid.</li>
+<li><strong>No record.</strong> Not saving your prompts, so you cannot show how you worked.</li>
+</ul></section>
+
+<section id="next" class="section"><h2>Next steps</h2>
+<div class="btn-row" style="display:flex;flex-wrap:wrap;gap:0.8rem">
+<a class="btn btn-primary" href="#prompt-builder">Build a learning prompt</a>
+<a class="btn btn-outline" href="#quiz">Take the quiz</a>
+<a class="btn btn-outline" href="#checklist">Use the checklist</a></div></section>
+</div></div>
+</div>
+<div id="prompt-builder">
+<section class="page-title"><div class="container"><h2>Prompt Builder</h2><p>Fill in the boxes. A structured prompt appears beside or below the form, ready to copy into the AI tool you choose.</p></div></section>
+<div class="section"><div class="container grid grid-2" style="align-items:start">
+<form id="prompt-form" class="card form-grid" novalidate aria-label="Prompt builder form">
+  <div><label for="pb-mode">What do you want help with? <span class="hint">(required)</span></label>
+    <select id="pb-mode"><option value="learn">Help me understand</option><option value="feedback">Give feedback on my draft</option><option value="brainstorm">Brainstorm ideas</option><option value="practice">Practice questions</option></select></div>
+  <div><label for="pb-task">Topic or task <span class="hint">(required)</span></label>
+    <textarea id="pb-task" placeholder="e.g. How does gradient descent work in machine learning?"></textarea></div>
+  <div><label for="pb-role">Role for the AI <span class="hint">(optional)</span></label>
+    <input type="text" id="pb-role" placeholder="e.g. a patient statistics tutor"></div>
+  <div><label for="pb-context">Context <span class="hint">(optional)</span></label>
+    <textarea id="pb-context" placeholder="e.g. I am preparing for a mid-term and have read chapter 4."></textarea></div>
+  <div class="form-grid two">
+    <div><label for="pb-level">Your level <span class="hint">(optional)</span></label>
+      <input type="text" id="pb-level" placeholder="e.g. beginner, master's student"></div>
+    <div><label for="pb-format">Answer format <span class="hint">(optional)</span></label>
+      <input type="text" id="pb-format" placeholder="e.g. short steps with an example"></div>
+  </div>
+  <div><label for="pb-constraints">Constraints <span class="hint">(optional)</span></label>
+    <input type="text" id="pb-constraints" placeholder="e.g. under 300 words, no code"></div>
+  <div><button type="button" class="btn btn-outline" id="pb-reset">Clear form</button></div>
+</form>
+
+<section class="card" aria-labelledby="pb-out-title">
+  <h2 id="pb-out-title" style="margin-top:0;font-size:1.3rem">Your prompt</h2>
+  <label for="pb-output" class="hint">Generated prompt (you can also select and copy it yourself)</label>
+  <textarea id="pb-output" class="output" readonly placeholder="Enter a topic or task to see your prompt here."></textarea>
+  <p style="margin:0.8rem 0 0"><button type="button" class="btn btn-primary" id="pb-copy" disabled>Copy prompt</button></p>
+  <p class="status" id="pb-status" role="status" aria-live="polite"></p>
+  <div class="note-blue"><strong>Before you use it:</strong> check whether your course allows AI for this task, never paste private or confidential data, and verify what the AI tells you. Prompts are built in your browser and are not sent anywhere by this page.</div>
+</section>
+</div></div>
+<noscript><div class="container"><p class="notice">The Prompt Builder needs JavaScript. Please enable it in your browser.</p></div></noscript>
+</div>
+<div id="quiz">
+<section class="page-title"><div class="container"><h2>&ldquo;Is this acceptable?&rdquo; Quiz</h2><p>Ten short study scenarios. Choose the best answer, then read why.</p></div></section>
+<div class="section"><div class="container">
+<div id="quiz-root" class="quiz-box">
+  <div id="quiz-intro">
+    <h2 style="margin-top:0">Ready?</h2>
+    <p>You will see ten scenarios. For each, pick whether the use is generally acceptable, depends on the rules, or is generally not acceptable. The scenarios are general, so your own course rules may differ.</p>
+    <button type="button" class="btn btn-primary" id="quiz-start">Start the quiz</button>
+  </div>
+  <div id="quiz-area" hidden></div>
+  <div id="quiz-result" hidden aria-live="polite"></div>
+  <noscript><p class="notice">The quiz needs JavaScript. Please enable it in your browser.</p></noscript>
+</div>
+<p class="hint" style="margin-top:1rem">Your answers stay in your browser. Only the fact that the quiz was started or finished, and the final score, may be counted by analytics if you accepted it.</p>
+</div></div>
+</div>
+<div id="tools">
+<section class="page-title"><div class="container"><h2>Tools Directory</h2><p>A short, neutral list of widely used AI tools. Listing is not an endorsement.</p></div></section>
+<div class="section"><div class="container">
+<div class="notice"><strong>Check before you use.</strong> Features, prices, age limits and data policies change often. Read each tool's own terms and privacy information, and check that your course allows it.</div>
+<div class="grid grid-3"><article class="card tool-card"><h3>ChatGPT</h3><p class="tool-meta">General-purpose AI assistant</p><p>Often used for explanations, drafting help, brainstorming and practice questions.</p><a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" data-tool="ChatGPT">Visit ChatGPT<span class="hint"> (opens in a new tab)</span></a></article><article class="card tool-card"><h3>Claude</h3><p class="tool-meta">General-purpose AI assistant</p><p>Often used for reading and summarising long text, explanations and writing feedback.</p><a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" data-tool="Claude">Visit Claude<span class="hint"> (opens in a new tab)</span></a></article><article class="card tool-card"><h3>Google Gemini</h3><p class="tool-meta">General-purpose AI assistant</p><p>Often used for explanations and brainstorming, with links to other Google services.</p><a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" data-tool="Google Gemini">Visit Google Gemini<span class="hint"> (opens in a new tab)</span></a></article><article class="card tool-card"><h3>Microsoft Copilot</h3><p class="tool-meta">General-purpose AI assistant</p><p>Often used for answering questions and drafting, with links to Microsoft services.</p><a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" data-tool="Microsoft Copilot">Visit Microsoft Copilot<span class="hint"> (opens in a new tab)</span></a></article><article class="card tool-card"><h3>NotebookLM</h3><p class="tool-meta">Source-based study assistant</p><p>Works from documents you provide, which can help you stay close to your own course material.</p><a href="https://notebooklm.google.com/" target="_blank" rel="noopener noreferrer" data-tool="NotebookLM">Visit NotebookLM<span class="hint"> (opens in a new tab)</span></a></article><article class="card tool-card"><h3>Perplexity</h3><p class="tool-meta">AI-assisted search</p><p>Gives answers with source links, which makes checking easier. Still open the sources yourself.</p><a href="https://www.perplexity.ai/" target="_blank" rel="noopener noreferrer" data-tool="Perplexity">Visit Perplexity<span class="hint"> (opens in a new tab)</span></a></article></div>
+<p class="hint" style="margin-top:1.2rem">Descriptions are general and brief. They are not reviews or rankings.</p>
+</div></div>
+</div>
+<div id="checklist">
+<section class="page-title"><div class="container"><h2>Pre-submission Checklist</h2><p>Ten quick checks before you hand in work that involved AI in any way.</p></div></section>
+<div class="section"><div class="container">
+<p id="check-progress" class="hint" role="status" aria-live="polite">0 of 10 items ticked</p>
+<ul id="check-list" class="check-list"><li><label><input type="checkbox"> <span>I have read my course&#x27;s and university&#x27;s current AI policy, or asked my instructor.</span></label></li><li><label><input type="checkbox"> <span>I know whether AI use must be disclosed for this assignment.</span></label></li><li><label><input type="checkbox"> <span>I am using AI to support my learning, not to replace work I must do myself.</span></label></li><li><label><input type="checkbox"> <span>I have not shared personal data, other people&#x27;s data or confidential material with the tool.</span></label></li><li><label><input type="checkbox"> <span>I have checked facts, numbers and quotations against reliable sources.</span></label></li><li><label><input type="checkbox"> <span>I have confirmed that every reference exists and says what the AI claimed.</span></label></li><li><label><input type="checkbox"> <span>I can explain and defend everything I submit in my own words.</span></label></li><li><label><input type="checkbox"> <span>I have kept a record of my prompts and the AI&#x27;s answers in case I am asked.</span></label></li><li><label><input type="checkbox"> <span>I have included an AI-use disclosure or citation where it is required.</span></label></li><li><label><input type="checkbox"> <span>I have reviewed the final text for accuracy, originality and my own voice.</span></label></li></ul>
+<p style="margin-top:1.2rem;display:flex;flex-wrap:wrap;gap:0.8rem">
+<button type="button" class="btn btn-primary" id="check-download">Download checklist (text file)</button>
+<button type="button" class="btn btn-outline" id="check-reset">Clear ticks</button></p>
+<p class="hint">Your ticks are saved only in this browser on this device.</p>
+</div></div>
+</div>
+<div id="about">
+<section class="page-title"><div class="container"><h2>About &amp; Feedback</h2><p>What this site is for, what it is not, and how your data is handled.</p></div></section>
+<div class="section"><div class="container">
+<section class="section"><h2>Purpose</h2>
+<p>AI-Smart Study helps university students use generative AI tools responsibly, effectively and transparently. It was created as a student project for a Social Media Analytics course.</p></section>
+
+<section class="section"><h2>What this site does not do</h2>
+<ul><li>It does not run AI models, create accounts or collect your name.</li>
+<li>It does not give official policy, legal or academic-integrity rulings for any university.</li>
+<li>It does not help anyone avoid course rules.</li></ul></section>
+
+<section class="section" id="privacy"><h2>Privacy &amp; analytics</h2>
+<p>This site is static, so the prompt builder, quiz and checklist all run in your browser. Prompt text, quiz answers and checklist ticks are not sent to a server by the site. Checklist ticks and your analytics choice are stored in your browser only.</p>
+<p>If analytics is enabled, the site uses Google Analytics 4 to count visits and learn which pages and tools are used (for example how many people copy a prompt or finish the quiz). A banner asks for your choice, and you can change it later from the footer. Google handles this data under its own terms.</p></section>
+
+<section class="section" id="feedback"><h2>Was this site helpful?</h2>
+<div id="rating-row" class="rating-row">
+<button type="button" class="btn btn-primary" data-rating="helpful">Yes, helpful</button>
+<button type="button" class="btn btn-outline" data-rating="not_yet">Not yet</button></div>
+<p class="status" id="rating-thanks" role="status" aria-live="polite"></p>
+
+<div id="email-feedback" hidden>
+<h3>Send a comment by email</h3>
+<form id="email-form" class="card form-grid" novalidate>
+<div><label for="fb-topic">Topic</label><select id="fb-topic"><option>General comment</option><option>Guide content</option><option>Prompt Builder</option><option>Quiz</option><option>Problem or error</option></select></div>
+<div><label for="fb-message">Your message</label><textarea id="fb-message" required></textarea></div>
+<div><button type="submit" class="btn btn-primary">Open email</button></div>
+<p class="status" id="fb-status" role="status" aria-live="polite"></p>
+</form></div></section>
+</div></div>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><p><strong>AI-Smart Study</strong> is an independent student project for educational use. It gives general guidance only and is not official university policy or legal advice. Always follow your own course and institution rules.</p></div>
+    <div><p><a href="#privacy">Privacy &amp; analytics</a><br>
+    <button type="button" class="linklike" id="analytics-settings" hidden>Analytics settings</button></p>
+    <p>&copy; <span id="year">2026</span> AI-Smart Study</p></div>
+  </div>
+</footer>
+
+<!-- ============ SETTINGS (edit here) ============ -->
+<script>
+/* ==========================================================
+   AI-Smart Study - site configuration
+   This is the ONLY file you need to edit for analytics/contact.
+
+   GA_MEASUREMENT_ID
+     Leave as "" until you have created a real GA4 web data
+     stream. Then paste its Measurement ID, e.g. "G-ABC123XYZ9".
+     While it is empty, NO data is sent to Google.
+
+   CONSENT_MODE
+     "opt-in"  -> analytics loads only after the visitor clicks
+                  Accept (safer for privacy laws; fewer data points).
+     "opt-out" -> analytics loads by default; visitor can Decline.
+
+   CONTACT_EMAIL
+     Optional. If set, the About page shows a "send comments by
+     email" form that opens the visitor's email app. Leave "" to
+     hide that form (the helpful/not-helpful buttons still work).
+   ========================================================== */
+window.SITE_CONFIG = {
+  GA_MEASUREMENT_ID: "",
+  CONSENT_MODE: "opt-in",
+  CONTACT_EMAIL: ""
+};
+
+</script>
+<!-- ============ GOOGLE ANALYTICS 4 LOADER ============ -->
+<script>
+/* ==========================================================
+   AI-Smart Study - Google Analytics 4 loader
+   - Reads settings from js/config.js
+   - Loads the gtag.js tag ONCE per page (no duplicate tags)
+   - Sends nothing if no valid Measurement ID is configured
+   - Respects the visitor's consent choice
+   ========================================================== */
+(function () {
+  'use strict';
+
+  var cfg = window.SITE_CONFIG || {};
+  var id = String(cfg.GA_MEASUREMENT_ID || '').trim();
+  var mode = cfg.CONSENT_MODE === 'opt-out' ? 'opt-out' : 'opt-in';
+  var KEY = 'aiss_analytics_consent';
+  var idIsValid = /^G-[A-Z0-9]{6,}$/.test(id);
+  var loaded = false;
+
+  // gtag() is always defined so other scripts can call it safely.
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+
+  function getChoice() {
+    try { return window.localStorage.getItem(KEY); } catch (e) { return null; }
+  }
+  function setChoice(value) {
+    try { window.localStorage.setItem(KEY, value); } catch (e) { /* ignore */ }
+  }
+
+  function loadGA() {
+    if (loaded || !idIsValid) { return; }
+    loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+    document.head.appendChild(s);
+    window.gtag('js', new Date());
+    window.gtag('config', id); // sends the automatic page_view
+  }
+
+  function removeBanner() {
+    var b = document.getElementById('consent-banner');
+    if (b && b.parentNode) { b.parentNode.removeChild(b); }
+  }
+
+  function showBanner() {
+    if (document.getElementById('consent-banner')) { return; }
+    var div = document.createElement('div');
+    div.className = 'consent-banner';
+    div.id = 'consent-banner';
+    div.setAttribute('role', 'region');
+    div.setAttribute('aria-label', 'Analytics choice');
+    div.innerHTML =
+      '<div class="inner">' +
+      '<p>' + (mode === 'opt-in'
+        ? 'This site would like to use Google Analytics to count visits and see which pages and tools are used. It does not collect your name or account details.'
+        : 'This site uses Google Analytics to count visits and see which pages and tools are used. It does not collect your name or account details. You can decline.') +
+      ' <a href="#privacy">Learn more</a></p>' +
+      '<div class="btns">' +
+      '<button type="button" class="btn btn-primary" id="consent-accept">Accept</button>' +
+      '<button type="button" class="btn btn-outline" id="consent-decline">Decline</button>' +
+      '</div></div>';
+    document.body.appendChild(div);
+    document.getElementById('consent-accept').addEventListener('click', function () {
+      setChoice('granted'); removeBanner(); loadGA();
+    });
+    document.getElementById('consent-decline').addEventListener('click', function () {
+      setChoice('denied'); removeBanner();
+    });
+  }
+
+  function init() {
+    if (!idIsValid) { return; } // nothing configured -> nothing sent
+
+    var choice = getChoice();
+    if (choice === 'granted') { loadGA(); }
+    else if (choice === 'denied') { /* respect the choice */ }
+    else if (mode === 'opt-out') { loadGA(); showBanner(); }
+    else { showBanner(); }
+
+    // Footer button lets visitors change their mind later.
+    var reopen = document.getElementById('analytics-settings');
+    if (reopen) {
+      reopen.hidden = false; // only shown when analytics is actually configured
+      reopen.addEventListener('click', function () {
+        try { window.localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+        showBanner();
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+</script>
+<!-- ============ SITE FEATURES ============ -->
+<script>
+/* ==========================================================
+   AI-Smart Study - main script
+   Each feature starts only if its elements exist on the page.
+   Custom GA4 events (names are final for the measurement plan):
+     prompt_copied, quiz_started, quiz_completed,
+     tool_link_click, checklist_download_click, feedback_submitted
+   ========================================================== */
+(function () {
+  'use strict';
+
+  /* ---------- helpers ---------- */
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  // Safe wrapper: never breaks the page if analytics is blocked/unavailable.
+  function track(name, params) {
+    try {
+      if (typeof window.gtag === 'function') { window.gtag('event', name, params || {}); }
+    } catch (e) { /* ignore */ }
+  }
+
+  function save(key, value) { try { window.localStorage.setItem(key, value); } catch (e) { /* ignore */ } }
+  function load(key) { try { return window.localStorage.getItem(key); } catch (e) { return null; } }
+  function saveSession(key, value) { try { window.sessionStorage.setItem(key, value); } catch (e) { /* ignore */ } }
+  function loadSession(key) { try { return window.sessionStorage.getItem(key); } catch (e) { return null; } }
+
+  /* ---------- footer year ---------- */
+  var yearEl = $('#year');
+  if (yearEl) { yearEl.textContent = String(new Date().getFullYear()); }
+
+  /* ---------- mobile navigation ---------- */
+  var toggle = $('#nav-toggle');
+  var nav = $('#site-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  /* ---------- outbound tool links + checklist download tracking ---------- */
+  document.addEventListener('click', function (ev) {
+    var a = ev.target.closest ? ev.target.closest('a') : null;
+    if (!a) { return; }
+    if (a.hasAttribute('data-tool')) {
+      track('tool_link_click', { tool_name: a.getAttribute('data-tool'), link_url: a.href });
+    }
+    if (a.hasAttribute('data-checklist-download')) {
+      track('checklist_download_click', { file_name: 'AI-Smart-Study-Checklist.pdf' });
+    }
+  });
+
+  /* ==========================================================
+     PROMPT BUILDER
+     ========================================================== */
+  var pbForm = $('#prompt-form');
+  if (pbForm) {
+    var out = $('#pb-output');
+    var copyBtn = $('#pb-copy');
+    var resetBtn = $('#pb-reset');
+    var status = $('#pb-status');
+
+    var MODES = {
+      learn: {
+        label: 'Help me understand',
+        text: 'Help me understand this topic. Explain step by step, then ask me 2-3 questions to check my understanding. Do not just give a final answer that I could submit as my own work.'
+      },
+      feedback: {
+        label: 'Give feedback on my draft',
+        text: 'Give me feedback on my own draft: strengths, weaknesses and specific suggestions. Do not rewrite the whole text for me.'
+      },
+      brainstorm: {
+        label: 'Brainstorm ideas',
+        text: 'Suggest several ideas or angles with pros and cons for each. I will choose one and develop it myself.'
+      },
+      practice: {
+        label: 'Practice questions',
+        text: 'Create practice questions for me. Keep the answers hidden until I try, then give feedback on my attempts.'
+      }
+    };
+
+    var val = function (id) { return ($('#' + id).value || '').trim(); };
+
+    var buildPrompt = function () {
+      var task = val('pb-task');
+      if (!task) { return ''; }
+      var mode = MODES[val('pb-mode')] || MODES.learn;
+      var lines = [];
+      lines.push('Act as ' + (val('pb-role') || 'a patient, knowledgeable tutor') + '.');
+      lines.push('');
+      lines.push('My goal: ' + mode.text);
+      lines.push('');
+      lines.push('Topic / task: ' + task);
+      if (val('pb-context')) { lines.push('Context: ' + val('pb-context')); }
+      if (val('pb-level')) { lines.push('My level: ' + val('pb-level')); }
+      if (val('pb-format')) { lines.push('Preferred answer format: ' + val('pb-format')); }
+      if (val('pb-constraints')) { lines.push('Constraints: ' + val('pb-constraints')); }
+      lines.push('');
+      lines.push('If anything is unclear, ask me clarifying questions before answering.');
+      lines.push('Tell me where you are uncertain, and suggest how I can verify the key facts using reliable sources.');
+      return lines.join('\n');
+    };
+
+    var refresh = function () {
+      var text = buildPrompt();
+      out.value = text;
+      copyBtn.disabled = !text;
+      if (!text) { status.textContent = ''; }
+    };
+
+    pbForm.addEventListener('input', refresh);
+    pbForm.addEventListener('change', refresh);
+    pbForm.addEventListener('submit', function (e) { e.preventDefault(); });
+
+    var fallbackCopy = function (text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    };
+
+    var onCopied = function () {
+      status.textContent = 'Prompt copied to your clipboard.';
+      track('prompt_copied', { prompt_mode: val('pb-mode') });
+    };
+
+    copyBtn.addEventListener('click', function () {
+      var text = out.value;
+      if (!text) { return; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onCopied, function () {
+          if (fallbackCopy(text)) { onCopied(); } else { status.textContent = 'Could not copy automatically. Select the text and copy it manually.'; }
+        });
+      } else if (fallbackCopy(text)) {
+        onCopied();
+      } else {
+        status.textContent = 'Could not copy automatically. Select the text and copy it manually.';
+      }
+    });
+
+    resetBtn.addEventListener('click', function () {
+      pbForm.reset();
+      refresh();
+      status.textContent = 'Form cleared.';
+    });
+
+    refresh();
+  }
+
+  /* ==========================================================
+     QUIZ: "Is this acceptable?"
+     General scenarios only. Real rules depend on your course.
+     ========================================================== */
+  var quizRoot = $('#quiz-root');
+  if (quizRoot) {
+    var OPTIONS = [
+      { id: 'ok', label: 'Generally acceptable' },
+      { id: 'depends', label: 'It depends: check the rules first' },
+      { id: 'no', label: 'Generally not acceptable' }
+    ];
+
+    var QUESTIONS = [
+      {
+        q: 'You do not understand a concept from the lecture slides, so you ask an AI tool to explain it in simpler words, then check it against your textbook.',
+        a: 'ok',
+        why: 'Using AI as an explainer is a learning use, and you verify the result against a trusted source. Still follow any course rule that applies.'
+      },
+      {
+        q: 'You paste the whole assignment question into an AI tool and submit its answer as your own work.',
+        a: 'no',
+        why: 'This replaces the work you are meant to do and presents it as yours. It is the clearest example of misuse.'
+      },
+      {
+        q: 'You ask an AI tool to correct grammar in a paragraph you wrote yourself.',
+        a: 'depends',
+        why: 'Many courses allow light language support, but some do not, and some require you to disclose it. Check the rules for the assignment.'
+      },
+      {
+        q: 'You ask an AI tool for a list of references and paste them into your bibliography without opening any of them.',
+        a: 'no',
+        why: 'AI tools can produce references that look real but do not exist or do not say what is claimed. Every source must be found and read by you.'
+      },
+      {
+        q: 'You use AI to brainstorm possible project topics, then pick one and develop it yourself.',
+        a: 'ok',
+        why: 'Brainstorming is a typical supporting use, and the thinking and the final work are yours. Disclose it if your course asks you to.'
+      },
+      {
+        q: 'The instructions say a programming assignment must be done individually without outside help, but you ask an AI tool to write the code.',
+        a: 'no',
+        why: 'The stated rules prohibit it. Following the assignment instructions always comes first.'
+      },
+      {
+        q: 'You upload a classmate\'s personal details or confidential unpublished research data into a public AI tool.',
+        a: 'no',
+        why: 'Sharing other people\'s personal or confidential information with an online tool can breach privacy and research rules.'
+      },
+      {
+        q: 'You ask an AI tool to summarise a paper, and then you read the paper yourself to check the summary.',
+        a: 'ok',
+        why: 'A summary used as a reading aid, followed by your own reading and verification, supports learning rather than replacing it.'
+      },
+      {
+        q: 'Your course has no written AI policy, and you want AI to draft a section of your report.',
+        a: 'depends',
+        why: 'Silence is not permission. Ask your instructor before you use it, and be ready to disclose it.'
+      },
+      {
+        q: 'Your course requires an AI-use disclosure, but you have AI rewrite your essay paragraphs and submit them without mentioning it.',
+        a: 'no',
+        why: 'Hiding AI use when disclosure is required breaks the course rules, even if the ideas are yours.'
+      }
+    ];
+
+    var introEl = $('#quiz-intro');
+    var areaEl = $('#quiz-area');
+    var resultEl = $('#quiz-result');
+    var startBtn = $('#quiz-start');
+    var index = 0;
+    var score = 0;
+    var answered = false;
+
+    var escapeHtml = function (s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    };
+
+    var labelFor = function (id) {
+      for (var i = 0; i < OPTIONS.length; i++) { if (OPTIONS[i].id === id) { return OPTIONS[i].label; } }
+      return '';
+    };
+
+    var renderQuestion = function () {
+      var item = QUESTIONS[index];
+      answered = false;
+      var html = '';
+      html += '<p class="quiz-progress">Question ' + (index + 1) + ' of ' + QUESTIONS.length + '</p>';
+      html += '<div class="progress-bar" aria-hidden="true"><span style="width:' + (index / QUESTIONS.length * 100) + '%"></span></div>';
+      html += '<form id="q-form"><fieldset><legend>' + escapeHtml(item.q) + '</legend>';
+      OPTIONS.forEach(function (o) {
+        html += '<label class="choice"><input type="radio" name="answer" value="' + o.id + '"> <span>' + escapeHtml(o.label) + '</span></label>';
+      });
+      html += '</fieldset>';
+      html += '<div class="quiz-actions"><button type="submit" class="btn btn-primary" id="q-check">Check answer</button>';
+      html += '<button type="button" class="btn btn-outline" id="q-next" hidden>' + (index === QUESTIONS.length - 1 ? 'See my score' : 'Next question') + '</button></div>';
+      html += '<div id="q-feedback" aria-live="polite"></div></form>';
+      areaEl.innerHTML = html;
+
+      var form = $('#q-form');
+      var firstRadio = $('input[name="answer"]', form);
+      if (firstRadio) { firstRadio.focus(); }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (answered) { return; }
+        var chosen = $('input[name="answer"]:checked', form);
+        var fb = $('#q-feedback');
+        if (!chosen) {
+          fb.innerHTML = '<div class="feedback bad">Please choose an answer first.</div>';
+          return;
+        }
+        answered = true;
+        var correct = chosen.value === item.a;
+        if (correct) { score += 1; }
+        $all('.choice', form).forEach(function (lab) {
+          var input = $('input', lab);
+          input.disabled = true;
+          if (input.value === item.a) { lab.classList.add('correct'); }
+          else if (input.checked) { lab.classList.add('wrong'); }
+        });
+        fb.innerHTML = '<div class="feedback ' + (correct ? 'good' : 'bad') + '"><strong>' +
+          (correct ? 'Correct.' : 'Not quite.') + '</strong> Best answer: ' + escapeHtml(labelFor(item.a)) + '. ' + escapeHtml(item.why) + '</div>';
+        $('#q-check').hidden = true;
+        var next = $('#q-next');
+        next.hidden = false;
+        next.focus();
+      });
+
+      $('#q-next').addEventListener('click', function () {
+        index += 1;
+        if (index < QUESTIONS.length) { renderQuestion(); } else { showResult(); }
+      });
+    };
+
+    var showResult = function () {
+      areaEl.hidden = true;
+      var msg;
+      if (score >= 9) { msg = 'Excellent judgement. Remember that real rules differ between courses, so keep checking them.'; }
+      else if (score >= 6) { msg = 'Good start. Review the guide for the cases you missed, especially the "it depends" situations.'; }
+      else { msg = 'Worth revisiting. Read the guide and use the checklist before your next assignment.'; }
+      resultEl.innerHTML =
+        '<p class="score" tabindex="-1" id="score-line">' + score + ' / ' + QUESTIONS.length + '</p>' +
+        '<p>' + escapeHtml(msg) + '</p>' +
+        '<div class="quiz-actions">' +
+        '<button type="button" class="btn btn-primary" id="quiz-restart">Try again</button>' +
+        '<a class="btn btn-outline" href="#guide">Read the guide</a>' +
+        '<a class="btn btn-outline" href="#checklist">Get the checklist</a></div>';
+      resultEl.hidden = false;
+      $('#score-line').focus();
+      track('quiz_completed', { score: score, total_questions: QUESTIONS.length });
+      $('#quiz-restart').addEventListener('click', startQuiz);
+    };
+
+    var startQuiz = function () {
+      index = 0;
+      score = 0;
+      introEl.hidden = true;
+      resultEl.hidden = true;
+      areaEl.hidden = false;
+      track('quiz_started', { total_questions: QUESTIONS.length });
+      renderQuestion();
+    };
+
+    startBtn.addEventListener('click', startQuiz);
+  }
+
+  /* ==========================================================
+     CHECKLIST (progress saved only in this browser)
+     ========================================================== */
+  var checkList = $('#check-list');
+  if (checkList) {
+    var boxes = $all('input[type="checkbox"]', checkList);
+    var progress = $('#check-progress');
+    var KEY = 'aiss_checklist_v1';
+
+    var updateProgress = function () {
+      var done = boxes.filter(function (b) { return b.checked; }).length;
+      progress.textContent = done + ' of ' + boxes.length + ' items ticked';
+    };
+
+    var saved = load(KEY);
+    if (saved) {
+      try {
+        var arr = JSON.parse(saved);
+        boxes.forEach(function (b, i) { b.checked = !!arr[i]; });
+      } catch (e) { /* ignore corrupt data */ }
+    }
+    updateProgress();
+
+    checkList.addEventListener('change', function () {
+      save(KEY, JSON.stringify(boxes.map(function (b) { return b.checked; })));
+      updateProgress();
+    });
+
+    var clearBtn = $('#check-reset');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function () {
+        boxes.forEach(function (b) { b.checked = false; });
+        save(KEY, JSON.stringify(boxes.map(function () { return false; })));
+        updateProgress();
+      });
+    }
+  }
+
+  /* ==========================================================
+     FEEDBACK (rating buttons + optional email form)
+     ========================================================== */
+  var ratingRow = $('#rating-row');
+  if (ratingRow) {
+    var thanks = $('#rating-thanks');
+    var ratingBtns = $all('button[data-rating]', ratingRow);
+
+    if (loadSession('aiss_rated')) {
+      ratingBtns.forEach(function (b) { b.disabled = true; });
+      thanks.textContent = 'Thank you, your answer has already been recorded for this visit.';
+    }
+
+    ratingBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (loadSession('aiss_rated')) { return; }
+        saveSession('aiss_rated', '1');
+        ratingBtns.forEach(function (b) { b.disabled = true; });
+        track('feedback_submitted', { rating: btn.getAttribute('data-rating') });
+        thanks.textContent = 'Thank you for your feedback.';
+      });
+    });
+  }
+
+  var cfg = window.SITE_CONFIG || {};
+  var emailWrap = $('#email-feedback');
+  if (emailWrap && cfg.CONTACT_EMAIL) {
+    emailWrap.hidden = false;
+    var emailForm = $('#email-form');
+    emailForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var msg = ($('#fb-message').value || '').trim();
+      var topic = $('#fb-topic').value;
+      if (!msg) { $('#fb-status').textContent = 'Please write a message first.'; return; }
+      var subject = 'AI-Smart Study feedback: ' + topic;
+      window.location.href = 'mailto:' + encodeURIComponent(cfg.CONTACT_EMAIL) +
+        '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(msg);
+      $('#fb-status').textContent = 'Your email app should open with the message ready to send.';
+    });
+  }
+})();
+
+</script>
+<script>
+
+/* ---- single-page extras: menu closing, active-section highlight, checklist download ---- */
+(function () {
+  'use strict';
+  var DISC = "I used [tool name and version, if known] on [date] to [purpose, e.g. brainstorm topic ideas / check grammar in my own draft]. I reviewed and edited all output, and the final work is my own.";
+  var links = [].slice.call(document.querySelectorAll('#site-nav a'));
+  var nav = document.getElementById('site-nav');
+  var toggle = document.getElementById('nav-toggle');
+
+  function setActive(id) {
+    links.forEach(function (a) {
+      if (a.getAttribute('href') === '#' + id) { a.setAttribute('aria-current', 'page'); }
+      else { a.removeAttribute('aria-current'); }
+    });
+  }
+  links.forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (nav) { nav.classList.remove('open'); }
+      if (toggle) { toggle.setAttribute('aria-expanded', 'false'); }
+    });
+  });
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { setActive(e.target.id); } });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    links.forEach(function (a) {
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (el) { obs.observe(el); }
+    });
+  }
+
+  var dl = document.getElementById('check-download');
+  if (dl) {
+    dl.addEventListener('click', function () {
+      var items = [].slice.call(document.querySelectorAll('#check-list label span')).map(function (s, i) {
+        return '[ ] ' + (i + 1) + '. ' + s.textContent.trim();
+      });
+      var text = 'AI-SMART STUDY - PRE-SUBMISSION CHECKLIST\r\n\r\n' + items.join('\r\n') +
+        '\r\n\r\nDISCLOSURE TEMPLATE\r\n' + DISC +
+        '\r\n\r\nGeneral guidance only. Always follow your own course and institution rules.\r\n';
+      var blob = new Blob([text], { type: 'text/plain' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'AI-Smart-Study-Checklist.txt';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      try { if (typeof window.gtag === 'function') { window.gtag('event', 'checklist_download_click', { file_name: 'AI-Smart-Study-Checklist.txt' }); } } catch (e) { /* ignore */ }
+    });
+  }
+})();
+
+</script>
+</body>
+</html>
